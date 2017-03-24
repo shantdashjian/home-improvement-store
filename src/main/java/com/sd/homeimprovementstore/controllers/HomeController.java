@@ -15,7 +15,8 @@ import com.sd.homeimprovementstore.data.Product;
 @Controller
 public class HomeController {
 
-	private HomeDAO dao = new HomeDAODBImpl();
+	@Autowired
+	public HomeDAO dao;
 	
 	@RequestMapping(value = "home.do")
 	public String home() {
@@ -35,7 +36,7 @@ public class HomeController {
 	public ModelAndView getInventory() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		List<Product> inventory = dao.getInventory();
+		List<List<String>> inventory = dao.getInventory();
 		mv.addObject("inventory", inventory);
 		return mv;
 	}
@@ -50,10 +51,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "editProduct.do", method=RequestMethod.POST)
-	public ModelAndView editProduct(Product product) {
+	public ModelAndView editProduct(Product product, Integer quantity) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		Product returnedProduct = dao.editProduct(product);
+		Product returnedProduct = dao.editProduct(product, quantity);
 		mv.addObject("returnedProduct", returnedProduct);
 		return mv;
 	}

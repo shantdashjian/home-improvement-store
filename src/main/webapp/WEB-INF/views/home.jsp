@@ -66,6 +66,13 @@
         </div>
         <!-- /.container -->
 
+		<c:forEach var="product" items="{$inventory}">
+			Product ID: ${product[0]}<br>
+			Product Name: ${product[1]}<br>
+			Quantity: ${product[2]}<br>
+			<br><br>
+		</c:forEach>
+
 
         <!-- Bootstrap core JavaScript
     ================================================== -->
