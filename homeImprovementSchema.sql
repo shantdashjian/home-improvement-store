@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` VARCHAR(45) NULL,
   `price` VARCHAR(45) NULL,
   `category_id` INT NULL,
-  `description` VARCHAR(45) NULL,
+  `description` VARCHAR(1000) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_idx` (`category_id` ASC),
   CONSTRAINT `fk_product`
