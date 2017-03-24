@@ -5,7 +5,7 @@ apply plugin: 'eclipse-wtp'
 group = 'com.sd'
 version = '1.0.0-BUILD-SNAPSHOT'
 
-description = """MVCFilmSite"""
+description = "HomeImprovementStore"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

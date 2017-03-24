@@ -3,17 +3,19 @@ package com.sd.homeimprovementstore.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sd.homeimprovementstore.data.HomeDAO;
+import com.sd.homeimprovementstore.data.HomeDAODBImpl;
 import com.sd.homeimprovementstore.data.Product;
 
+@Controller
 public class HomeController {
 
-	@Autowired
-	private HomeDAO dao;
+	private HomeDAO dao = new HomeDAODBImpl();
 	
 	@RequestMapping(value = "home.do")
 	public String home() {
