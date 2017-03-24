@@ -59,11 +59,9 @@
 	<div class="container">
 
 		<div class="starter-template">
-			<h1>Bootstrap starter template</h1>
-			<p class="lead">
-				Use this document as a way to quickly start any new project.<br>
-				All you get is this text and a mostly barebones HTML document.
-			</p>
+			<h1>HIS PMS</h1>
+			<p>Welcome to the Home Improvement Store Product Managment System</p>
+			
 	
 		</div>
 
@@ -76,21 +74,26 @@
 			<th>Product Price:</th>
 			<th>Quantity:</th>
 		</tr>
-		<c:forEach var="stock" items="${inventory}">
+		
 			<tr>
-				<td>${stock.product.id}</td>
+				<td>${product.id}</td>
 
-				<td><a href="getProduct.do?id=${stock.product.id}">${stock.product.name}</a></td>
+				<td>${product.name}</td>
 
-				<td>${stock.product.price}</td>
+				<td>${product.price}</td>
+				<td>${product.description}</td>
 
-				<td>${stock.quantity}</td>
 			</tr>
-		</c:forEach>
 	</table>
-
-
-
+	<c:if test="${! empty response}">
+        <b>${response}</b>
+        <br>
+    </c:if>
+	<form action="deleteProduct.do" method="POST"><button type="submit" name="id" value="${product.id}">Delete</button></form>
+	<form action="addProduct.do" method="POST"><button type="submit" name="id" value="${product.id}">Add</button></form>
+	<form action="editProduct.do" method="POST"><button type="submit" name="id" value="${product.id}">Edit</button></form>
+	
+	
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

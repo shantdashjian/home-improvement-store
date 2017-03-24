@@ -31,9 +31,10 @@ public class HomeController {
 	@RequestMapping(value = "getProduct.do", method = RequestMethod.GET)
 	public ModelAndView getProductByID(Integer id) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
+		mv.setViewName("product");
+		System.out.println("product" + id);
 		Product product = dao.getProductById(id);
-		mv.addObject("film", product);
+		mv.addObject("product", product);
 		return mv;
 	}
 

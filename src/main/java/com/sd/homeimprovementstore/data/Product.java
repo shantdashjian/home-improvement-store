@@ -5,16 +5,30 @@ public class Product {
 	private String name;
 	private String price;
 	private Integer categoryId;
+	private String description;
 	
 	public Product () {
 		
 	}
 
-	public Product(Integer id, String name, String price, Integer categoryId) {
+	public Product(Integer id, String name, String price, Integer categoryId, String description) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
+		this.categoryId = categoryId;
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
 

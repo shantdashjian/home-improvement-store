@@ -26,8 +26,8 @@ public class HomeDAODBImpl implements HomeDAO {
 	@Override
 	public Product getProductById(Integer id) {
 		Product product = null;
-
-		String sql = "Select id, name, price, category FROM ---product--- WHERE id = ?";
+		System.out.println("product");
+		String sql = "Select id, name, price, category_id, description FROM product WHERE id = ?";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -36,7 +36,7 @@ public class HomeDAODBImpl implements HomeDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+				product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
 			}
 
 			rs.close();
@@ -53,7 +53,7 @@ public class HomeDAODBImpl implements HomeDAO {
 	public List<Stock> getInventory() {
 	List<Stock> stocks = new ArrayList<>();
 //name,price,quantity
-		String sql = "SELECT p.id, p.name, p.price, p.category_id, s.quantity from product p JOIN stock s ON p.id = s.product_id";
+		String sql = "SELECT p.id, p.name, p.price, p.category_id, p.description, s.quantity from product p JOIN stock s ON p.id = s.product_id";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -62,8 +62,8 @@ public class HomeDAODBImpl implements HomeDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				Product temp = new Product(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getInt(4)); 
-				Stock stock = new Stock(temp,rs.getInt(5));
+				Product temp = new Product(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getInt(4), rs.getString(5)); 
+				Stock stock = new Stock(temp,rs.getInt(6));
 				stocks.add(stock);
 			}
 
