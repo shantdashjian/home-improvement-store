@@ -19,8 +19,12 @@ public class HomeController {
 	public HomeDAO dao;
 	
 	@RequestMapping(value = "home.do")
-	public String home() {
-		return ("home");
+	public ModelAndView home() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("home");
+		List<List<String>> inventory = dao.getInventory();
+		mv.addObject("invetory", inventory);
+		return mv;
 	}
 
 	@RequestMapping(value = "getProduct.do", method=RequestMethod.GET)
