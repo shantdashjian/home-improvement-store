@@ -47,10 +47,11 @@ public class HomeDAODBImpl implements HomeDAO {
 
 	@SuppressWarnings("null")
 	@Override
-	public List<Product> getInventory() {
-		List<Product> inventory = null;
-
-		String sql = "Select * FROM product";
+	public List<List<String>> getInventory() {
+		List<List<String>> inventory = null;
+		
+//name,price,quantity
+		String sql = "SELECT p.name, p.quantity s.price from product p JOIN stock s ON p.id = s.product_id";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -59,7 +60,11 @@ public class HomeDAODBImpl implements HomeDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				inventory.add(new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getInt(4)));
+				List<String> temp = null;
+				temp.add(rs.getString(1));
+				temp.add(rs.getString(2));
+				temp.add(rs.getString(3));
+				inventory.add(temp);
 			}
 
 			rs.close();
@@ -105,7 +110,7 @@ public class HomeDAODBImpl implements HomeDAO {
 	}
 
 	@Override
-	public Product editProduct(Product product) {
+	public Product editProduct(Product product, Integer quantity) {
 
 		String sql = "UPDATE product SET name = ?,  price = ?, categoryId = ?";
 
