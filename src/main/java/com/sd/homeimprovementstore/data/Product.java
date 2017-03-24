@@ -3,14 +3,14 @@ package com.sd.homeimprovementstore.data;
 public class Product {
 	private Integer id;
 	private String name;
-	private Double price;
+	private String price;
 	private Integer categoryId;
 	
 	public Product () {
 		
 	}
 
-	public Product(Integer id, String name, Double price, Integer categoryId) {
+	public Product(Integer id, String name, String price, Integer categoryId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,11 +39,11 @@ public class Product {
 		this.name = name;
 	}
 
-	public Double getPrice() {
+	public String getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 

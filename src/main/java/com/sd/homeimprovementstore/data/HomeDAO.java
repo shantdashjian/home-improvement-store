@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface HomeDAO {
 
-	List<List<String>> getInventory();
+	List<Stock> getInventory();
 	Product getProductById(Integer id);
 	Product addProduct(Product product);
 	Product editProduct(Product product, Integer quantity);

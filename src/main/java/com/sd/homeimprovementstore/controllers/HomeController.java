@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sd.homeimprovementstore.data.HomeDAO;
 import com.sd.homeimprovementstore.data.HomeDAODBImpl;
 import com.sd.homeimprovementstore.data.Product;
+import com.sd.homeimprovementstore.data.Stock;
 
 @Controller
 public class HomeController {
@@ -22,7 +23,7 @@ public class HomeController {
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		List<List<String>> inventory = dao.getInventory();
+		List<Stock> inventory = dao.getInventory();
 		mv.addObject("invetory", inventory);
 		return mv;
 	}
@@ -40,7 +41,7 @@ public class HomeController {
 	public ModelAndView getInventory() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
-		List<List<String>> inventory = dao.getInventory();
+		List<Stock> inventory = dao.getInventory();
 		mv.addObject("inventory", inventory);
 		return mv;
 	}

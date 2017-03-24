@@ -4,13 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class HomeDAODBImpl implements HomeDAO {
 	private static String url = "jdbc:mysql://localhost:3306/homeimprovementstore";
 	private String user = "homeUser";
 	private String pass = "home";
-
+	
 	public HomeDAODBImpl() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -33,7 +36,7 @@ public class HomeDAODBImpl implements HomeDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				product = new Product(rs.getInt(1), rs.getString(2), rs.getDouble(3), rs.getInt(4));
+				product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
 			}
 
 			rs.close();
@@ -47,11 +50,10 @@ public class HomeDAODBImpl implements HomeDAO {
 
 	@SuppressWarnings("null")
 	@Override
-	public List<List<String>> getInventory() {
-		List<List<String>> inventory = null;
-		
+	public List<Stock> getInventory() {
+	List<Stock> stocks = new ArrayList<>();
 //name,price,quantity
-		String sql = "SELECT p.name, p.quantity s.price from product p JOIN stock s ON p.id = s.product_id";
+		String sql = "SELECT p.id, p.name, p.price, p.category_id, s.quantity from product p JOIN stock s ON p.id = s.product_id";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -60,11 +62,9 @@ public class HomeDAODBImpl implements HomeDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				List<String> temp = null;
-				temp.add(rs.getString(1));
-				temp.add(rs.getString(2));
-				temp.add(rs.getString(3));
-				inventory.add(temp);
+				Product temp = new Product(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getInt(4)); 
+				Stock stock = new Stock(temp,rs.getInt(5));
+				stocks.add(stock);
 			}
 
 			rs.close();
@@ -73,7 +73,8 @@ public class HomeDAODBImpl implements HomeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return inventory;
+
+		return stocks;
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class HomeDAODBImpl implements HomeDAO {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
 			stmt.setString(2, product.getName());
-			stmt.setDouble(3, product.getPrice());
+			stmt.setString(3, product.getPrice());
 			stmt.setInt(4, product.getCategoryId());
 
 			int uc = stmt.executeUpdate();
@@ -121,7 +122,7 @@ public class HomeDAODBImpl implements HomeDAO {
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
 			stmt.setString(1, product.getName());
-			stmt.setDouble(2, product.getPrice());
+			stmt.setString(2, product.getPrice());
 			stmt.setInt(3, product.getCategoryId());
 
 			int uc = stmt.executeUpdate();
