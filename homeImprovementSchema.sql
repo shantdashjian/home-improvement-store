@@ -120,6 +120,14 @@ INSERT INTO `stock` (`product_id`, `quantity`) VALUES (1, 10);
 INSERT INTO `stock` (`product_id`, `quantity`) VALUES (2, 10);
 INSERT INTO `stock` (`product_id`, `quantity`) VALUES (3, 10);
 INSERT INTO `stock` (`product_id`, `quantity`) VALUES (4, 10);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (5, 10);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (6, 11);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (7, 11);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (8, 11);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (9, 11);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (10, 11);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (11, 11);
+INSERT INTO `stock` (`product_id`, `quantity`) VALUES (12, 11);
 
 COMMIT;
 
