@@ -24,7 +24,7 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
 		List<Stock> inventory = dao.getInventory();
-		mv.addObject("invetory", inventory);
+		mv.addObject("inventory", inventory);
 		return mv;
 	}
 

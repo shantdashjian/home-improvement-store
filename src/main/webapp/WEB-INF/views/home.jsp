@@ -80,7 +80,7 @@
 			<tr>
 				<td>${stock.product.id}</td>
 
-				<td>${stock.product.name}</td>
+				<td><a href="product.jsp">${stock.product.name}</td>
 
 				<td>${stock.product.price}</td>
 
