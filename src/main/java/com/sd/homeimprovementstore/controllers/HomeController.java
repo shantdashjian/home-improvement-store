@@ -18,7 +18,7 @@ public class HomeController {
 
 	@Autowired
 	public HomeDAO dao;
-	
+
 	@RequestMapping(value = "home.do")
 	public ModelAndView home() {
 		ModelAndView mv = new ModelAndView();
@@ -28,7 +28,7 @@ public class HomeController {
 		return mv;
 	}
 
-	@RequestMapping(value = "getProduct.do", method=RequestMethod.GET)
+	@RequestMapping(value = "getProduct.do", method = RequestMethod.GET)
 	public ModelAndView getProductByID(Integer id) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
@@ -36,8 +36,8 @@ public class HomeController {
 		mv.addObject("film", product);
 		return mv;
 	}
-	
-	@RequestMapping(value = "getInventory.do", method=RequestMethod.GET)
+
+	@RequestMapping(value = "getInventory.do", method = RequestMethod.GET)
 	public ModelAndView getInventory() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
@@ -45,8 +45,8 @@ public class HomeController {
 		mv.addObject("inventory", inventory);
 		return mv;
 	}
-	
-	@RequestMapping(value = "addProduct.do", method=RequestMethod.POST)
+
+	@RequestMapping(value = "addProduct.do", method = RequestMethod.POST)
 	public ModelAndView addProduct(Product product) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
@@ -54,8 +54,8 @@ public class HomeController {
 		mv.addObject("returnedProduct", returnedProduct);
 		return mv;
 	}
-	
-	@RequestMapping(value = "editProduct.do", method=RequestMethod.POST)
+
+	@RequestMapping(value = "editProduct.do", method = RequestMethod.POST)
 	public ModelAndView editProduct(Product product, Integer quantity) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
@@ -63,8 +63,8 @@ public class HomeController {
 		mv.addObject("returnedProduct", returnedProduct);
 		return mv;
 	}
-	
-	@RequestMapping(value = "deleteProduct.do", method=RequestMethod.POST)
+
+	@RequestMapping(value = "deleteProduct.do", method = RequestMethod.POST)
 	public ModelAndView deleteProduct(Integer id) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("home");
@@ -72,26 +72,5 @@ public class HomeController {
 		mv.addObject("response", response);
 		return mv;
 	}
-	
-	@RequestMapping(value = "getStock.do", method=RequestMethod.GET)
-	public ModelAndView getStockById(Integer id) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
-		Product product = dao.getProductById(id);
-		int productStock = dao.getStockById(id);
-		mv.addObject("amount", productStock);
-		mv.addObject("product", product);
-		return mv;
-	}
-	
-	@RequestMapping(value = "editStock.do", method=RequestMethod.POST)
-	public ModelAndView updateStockById(Integer id, Integer amount) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
-		Product product = dao.getProductById(id);
-		String response = dao.updateStockById(id, amount);
-		mv.addObject("response", response);
-		mv.addObject("product", product);
-		return mv;
-	}
+
 }

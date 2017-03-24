@@ -73,7 +73,7 @@ public class HomeDAODBImpl implements HomeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+System.out.println("fml");
 		return stocks;
 	}
 
