@@ -4,23 +4,23 @@ public class Product {
 	private Integer id;
 	private String name;
 	private Double price;
-	private Category category;
+	private Integer categoryId;
 	
 	public Product () {
 		
 	}
 
-	public Product(Integer id, String name, Double price, Category category) {
+	public Product(Integer id, String name, Double price, Integer categoryId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
-		this.category = category;
+		this.categoryId = categoryId;
 	}
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", category=" + category + "]";
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", categoryId=" + categoryId + "]";
 	}
 
 	public Integer getId() {
@@ -47,12 +47,12 @@ public class Product {
 		this.price = price;
 	}
 
-	public Category getCategory() {
-		return category;
+	public Integer getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategory(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 	
 	
