@@ -1,0 +1,32 @@
+body {
+	padding-top: 30px;
+	background-image: url('../images/background.jpg');
+	margin-left: 0.5%;
+}
+
+
+
+form {
+	/* margin: 3px; */
+}
+
+.clear-area {
+	    background: rgba(255, 255, 255, 0.90);	
+	    padding: 10px;
+}
+
+.btn {
+	display: block; 
+	margin: 5px auto;
+}
+
+img {
+	display: block;
+	margin: 0 auto;
+	width: 80%;
+	height: 80%;
+}
+
+th {
+	text-align: center;
+}
