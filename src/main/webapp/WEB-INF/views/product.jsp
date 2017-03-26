@@ -68,22 +68,17 @@
 			<div class="col-md-9">
 				<div class="col-md-12 clear-area">
 					<table class="table table-bordered">
-
 						<tr>
 							<th>Product ID</th>
 							<th>Product Name</th>
 							<th>Price</th>
-							<th>Quantity</th>
+							<th>Description</th>
 						</tr>
-
 						<tr>
 							<td>${product.id}</td>
-
 							<td>${product.name}</td>
-
 							<td>${product.price}</td>
 							<td>${product.description}</td>
-
 						</tr>
 					</table>
 					<c:if test="${! empty response}">
@@ -97,24 +92,24 @@
 					</form>
 
 					<form class="horizontal" action="editProduct.do" method="POST">
-						<button class="btn btn-primary btn-sm" type="submit" name="id" 
-						value="${product.id}">Edit</button>
+						<button class="btn btn-primary btn-sm" type="submit" name="id"
+							value="${product.id}">Edit</button>
 
 					</form>
 				</div>
 			</div>
 		</div>
+	</div>
 
 
 
-
-		<!-- Bootstrap core JavaScript
+	<!-- Bootstrap core JavaScript
     ================================================== -->
-		<!-- Placed at the end of the document so the pages load faster -->
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-		<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>
