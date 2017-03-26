@@ -35,38 +35,25 @@
 
 
 	<div class="container">
-	<jsp:include page="logoandnavigation.jsp" />
+		<jsp:include page="logoandnavigation.jsp" />
 		<div class="col-md-9">
-				<div class="col-md-12 clear-area">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<th>Product ID</th>
-								<th>Product Name</th>
-								<th>Price</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="stock" items="${inventory}">
+			<div class="col-md-12 clear-area">
+				<c:choose>
+					<c:when test="${! empty addedProduct}">
+						<h4>Product has been added </h4>
+						Product: <strong>${addedProduct.name}</strong>
+						<br>
+						Description: <strong>${addedProduct.description}</strong>
+						<br>
 
-								<tr
-									onclick="location.href='displayProduct.do?id=${stock.product.id}';">
-									<td>${stock.product.id}</td>
-
-									<td>${stock.product.name}</td>
-
-									<td>${stock.product.price}</td>
-
-									<td>${stock.quantity}</td>
-								</tr>
-
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+					</c:when>
+					<c:otherwise>
+						Product not added!
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<!-- Bootstrap core JavaScript

@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <!-- Commenting -->
@@ -35,39 +36,44 @@
 
 
 	<div class="container">
-	<jsp:include page="logoandnavigation.jsp" />
+		<jsp:include page="logoandnavigation.jsp" />
 		<div class="col-md-9">
-				<div class="col-md-12 clear-area">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<th>Product ID</th>
-								<th>Product Name</th>
-								<th>Price</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="stock" items="${inventory}">
+			<div class="col-md-12 clear-area">
+				<table class="table table-bordered">
+					<tr>
+						<th>Product ID</th>
+						<th>Product Name</th>
+						<th>Price</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>${product.id}</td>
+						<td>${product.name}</td>
+						<td>${product.price}</td>
+						<td>${product.description}</td>
+					</tr>
+				</table>
+				<c:if test="${! empty response}">
+					<b>${response}</b>
+					<br>
+				</c:if>
+				<form class="horizontal" action="deleteProduct.do" method="POST">
+					<button class="btn btn-primary btn-sm" type="submit" name="id"
+						value="${product.id}">Delete</button>
 
-								<tr
-									onclick="location.href='displayProduct.do?id=${stock.product.id}';">
-									<td>${stock.product.id}</td>
+				</form>
 
-									<td>${stock.product.name}</td>
+				<form class="horizontal" action="editProduct.do" method="POST">
+					<button class="btn btn-primary btn-sm" type="submit" name="id"
+						value="${product.id}">Edit</button>
 
-									<td>${stock.product.price}</td>
-
-									<td>${stock.quantity}</td>
-								</tr>
-
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
+	</div>
+
+
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -79,3 +85,5 @@
 </body>
 
 </html>
+
+

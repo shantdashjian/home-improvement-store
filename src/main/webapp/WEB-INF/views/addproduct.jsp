@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <!-- Commenting -->
@@ -35,39 +36,40 @@
 
 
 	<div class="container">
-	<jsp:include page="logoandnavigation.jsp" />
+		<jsp:include page="logoandnavigation.jsp" />
 		<div class="col-md-9">
-				<div class="col-md-12 clear-area">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<th>Product ID</th>
-								<th>Product Name</th>
-								<th>Price</th>
-								<th>Quantity</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="stock" items="${inventory}">
-
-								<tr
-									onclick="location.href='displayProduct.do?id=${stock.product.id}';">
-									<td>${stock.product.id}</td>
-
-									<td>${stock.product.name}</td>
-
-									<td>${stock.product.price}</td>
-
-									<td>${stock.quantity}</td>
-								</tr>
-
-							</c:forEach>
-						</tbody>
-					</table>
+			<div class="col-md-12 clear-area">
+				<div class="form_main">
+					<h3 class="heading">
+						<strong>Add a New Product </strong><span></span>
+					</h3>
+					<div class="form">
+						<form action="createProduct.do" method="POST">
+							<label for="name">Enter product name: </label>
+							<input type="text" name="name"  size="40"> <br>
+							<label for="price">Enter price: </label><input
+								type="number" name="price" value="1.00" step="0.01" min="1.00"><br>
+<!-- 								enter category_id (as drop down list)
+ -->						<label for="quantity">Enter quantity: </label> 
+ 							<input type="number" name="quantity" value="1" min="1"/><br>
+ 							<label for="categoryId">Select Category: </label>
+							<select name="categoryId">
+								<c:forEach var="category" items="${categories}">
+									<option value="${category.id}">${category.name}</option>
+								</c:forEach>
+							</select><br>
+ 							<label for="description">Enter description: </label>
+							<textarea name="description" type="text" class="txt_3"></textarea><br>
+							<input class="btn btn-primary btn-md" type="submit" value="Add Product to the System">
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	</div>
+
+
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -79,3 +81,5 @@
 </body>
 
 </html>
+
+

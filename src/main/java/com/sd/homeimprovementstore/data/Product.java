@@ -32,9 +32,12 @@ public class Product {
 		this.categoryId = categoryId;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", categoryId=" + categoryId + "]";
+		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", categoryId=" + categoryId
+				+ ", description=" + description + "]";
 	}
 
 	public Integer getId() {

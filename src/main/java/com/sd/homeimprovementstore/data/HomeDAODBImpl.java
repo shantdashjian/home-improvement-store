@@ -7,13 +7,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class HomeDAODBImpl implements HomeDAO {
 	private static String url = "jdbc:mysql://localhost:3306/homeimprovementstore";
 	private String user = "homeUser";
 	private String pass = "home";
-	
+
 	public HomeDAODBImpl() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -51,8 +49,7 @@ public class HomeDAODBImpl implements HomeDAO {
 	@SuppressWarnings("null")
 	@Override
 	public List<Stock> getInventory() {
-	List<Stock> stocks = new ArrayList<>();
-//name,price,quantity
+		List<Stock> stocks = new ArrayList<>();
 		String sql = "SELECT p.id, p.name, p.price, p.category_id, p.description, s.quantity from product p JOIN stock s ON p.id = s.product_id";
 
 		try {
@@ -62,8 +59,9 @@ public class HomeDAODBImpl implements HomeDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
-				Product temp = new Product(rs.getInt(1),rs.getString(2), rs.getString(3),rs.getInt(4), rs.getString(5)); 
-				Stock stock = new Stock(temp,rs.getInt(6));
+				Product temp = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
+						rs.getString(5));
+				Stock stock = new Stock(temp, rs.getInt(6));
 				stocks.add(stock);
 			}
 
@@ -73,32 +71,40 @@ public class HomeDAODBImpl implements HomeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-System.out.println(stocks);
 		return stocks;
 	}
 
 	@Override
-	public Product addProduct(Product product) {
+	public Product addProduct(Product product, Stock stock) {
+		
 		Product newProduct = null;
 
-		String sql = "INSERT INTO product (name, price, category)" + " VALUES (?,?,?)";
-
-		String sql2 = "SELECT LAST_INSERT_ID()";
+		String sqlToInsertProduct = "INSERT INTO product (name, price, category_id, description)" 
+						+ " VALUES (?,?,?,?)";
+		String sqlToInsertStock = "INSERT INTO stock (product_id, quantity) VALUES (?,?)";
+		String sqlToGetId = "SELECT LAST_INSERT_ID()";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = conn.prepareStatement(sqlToInsertProduct);
 
-			stmt.setString(2, product.getName());
-			stmt.setString(3, product.getPrice());
-			stmt.setInt(4, product.getCategoryId());
-
+			stmt.setString(1, product.getName());
+			stmt.setString(2, product.getPrice());
+			stmt.setInt(3, product.getCategoryId());
+			stmt.setString(4, product.getDescription());
 			int uc = stmt.executeUpdate();
-			if (uc > 0) {
-				ResultSet rs = stmt.executeQuery(sql2);
+			stmt = conn.prepareStatement(sqlToGetId);
+			
+			if (uc == 1) {
+				ResultSet rs = stmt.executeQuery(sqlToGetId);
 				if (rs.next()) {
+					newProduct = product;
 					newProduct.setId(rs.getInt(1));
 				}
+				stmt = conn.prepareStatement(sqlToInsertStock);
+				stmt.setInt(1, product.getId());
+				stmt.setInt(2, stock.getQuantity());
+				stmt.executeUpdate();
 			}
 			stmt.close();
 			conn.close();
@@ -179,8 +185,7 @@ System.out.println(stocks);
 			int uc = stmt.executeUpdate();
 			if (uc > 0) {
 				response = "Quantity in stock: " + amount;
-			}
-			else {
+			} else {
 				response = "Unable to update inventory!";
 			}
 
@@ -216,5 +221,31 @@ System.out.println(stocks);
 			e.printStackTrace();
 		}
 		return quantity;
+	}
+
+	@Override
+	public List<Category> getCategories() {
+		List<Category> categories = new ArrayList<>();
+		String sql = "SELECT category.id, category.name, category.description "
+				+ "FROM category";
+
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				Category category = new Category(rs.getInt(1), rs.getString(2), rs.getString(3));
+				categories.add(category);
+			}
+
+			rs.close();
+			stmt.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return categories;
 	}
 }

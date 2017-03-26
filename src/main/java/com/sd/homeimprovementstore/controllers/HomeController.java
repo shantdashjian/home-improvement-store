@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sd.homeimprovementstore.data.Category;
 import com.sd.homeimprovementstore.data.HomeDAO;
 import com.sd.homeimprovementstore.data.HomeDAODBImpl;
 import com.sd.homeimprovementstore.data.Product;
@@ -28,10 +29,10 @@ public class HomeController {
 		return mv;
 	}
 
-	@RequestMapping(value = "getProduct.do", method = RequestMethod.GET)
+	@RequestMapping(value = "displayProduct.do", method = RequestMethod.GET)
 	public ModelAndView getProductByID(Integer id) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("product");
+		mv.setViewName("displayproduct");
 		System.out.println("product" + id);
 		Product product = dao.getProductById(id);
 		mv.addObject("product", product);
@@ -47,12 +48,19 @@ public class HomeController {
 		return mv;
 	}
 
-	@RequestMapping(value = "addProduct.do", method = RequestMethod.POST)
-	public ModelAndView addProduct(Product product) {
+	@RequestMapping(value = "addProduct.do", method = RequestMethod.GET)
+	public ModelAndView addProduct() {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
-		Product returnedProduct = dao.addProduct(product);
-		mv.addObject("returnedProduct", returnedProduct);
+		mv.setViewName("addproduct");
+		List<Category> categories = dao.getCategories();
+		mv.addObject("categories", categories);
+		return mv;
+	}
+	@RequestMapping(value = "createProduct.do", method = RequestMethod.POST)
+	public ModelAndView createProduct(Product product, Stock stock) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("productadded");
+		mv.addObject("addedProduct", dao.addProduct(product, stock));
 		return mv;
 	}
 
