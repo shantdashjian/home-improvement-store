@@ -10,6 +10,6 @@ public interface HomeDAO {
 	Product editProduct(Product product, Stock stock);
 	String deleteProduct(Integer id);
 	Stock getStockById(Integer id);
-	String updateStockById(Integer id, Integer amount);
+	boolean updateStockById(Integer id, Integer amount);
 	List<Category> getCategories();
 }

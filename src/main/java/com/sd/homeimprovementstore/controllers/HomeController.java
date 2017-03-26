@@ -33,7 +33,6 @@ public class HomeController {
 	public ModelAndView getProductByID(Integer id) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("displayproduct");
-		System.out.println("product" + id);
 		Product product = dao.getProductById(id);
 		mv.addObject("product", product);
 		return mv;

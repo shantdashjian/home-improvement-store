@@ -10,7 +10,7 @@ import java.util.List;
 public class HomeDAODBImpl implements HomeDAO {
 	private static String url = "jdbc:mysql://localhost:3306/homeimprovementstore";
 	private String user = "homeUser";
-	private String pass = "home";
+	private String password = "home";
 
 	public HomeDAODBImpl() {
 		try {
@@ -24,50 +24,47 @@ public class HomeDAODBImpl implements HomeDAO {
 	@Override
 	public Product getProductById(Integer id) {
 		Product product = null;
-		System.out.println("product");
-		String sql = "Select id, name, price, category_id, description FROM product WHERE id = ?";
-
+		String sql = "SELECT id, name, price, category_id, description "
+					+ "FROM product WHERE id = ?";
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id);
-			ResultSet rs = stmt.executeQuery();
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
 
-			if (rs.next()) {
-				product = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
+			if (resultSet.next()) {
+				product = new Product(resultSet.getInt(1), resultSet.getString(2)
+							, resultSet.getString(3), resultSet.getInt(4), resultSet.getString(5));
 			}
-
-			rs.close();
-			stmt.close();
-			conn.close();
+			resultSet.close();
+			statement.close();
+			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return product;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public List<Stock> getInventory() {
 		List<Stock> stocks = new ArrayList<>();
-		String sql = "SELECT p.id, p.name, p.price, p.category_id, p.description, s.quantity from product p JOIN stock s ON p.id = s.product_id";
-
+		String sql = "SELECT p.id, p.name, p.price, p.category_id, p.description"
+				+ ", s.quantity FROM product p JOIN stock s ON p.id = s.product_id";
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet resultSet = statement.executeQuery();
 
-			ResultSet rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Product temp = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4),
-						rs.getString(5));
-				Stock stock = new Stock(temp, rs.getInt(6));
-				stocks.add(stock);
+			while (resultSet.next()) {
+				Product tempProduct = new Product(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getInt(4),
+						resultSet.getString(5));
+				Stock tempStock = new Stock(tempProduct, resultSet.getInt(6));
+				stocks.add(tempStock);
 			}
 
-			rs.close();
-			stmt.close();
-			conn.close();
+			resultSet.close();
+			statement.close();
+			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,76 +72,67 @@ public class HomeDAODBImpl implements HomeDAO {
 	}
 
 	@Override
-	public Product addProduct(Product product, Stock stock) {
-		
+	public Product addProduct(Product product, Stock stock) {		
 		Product newProduct = null;
-
 		String sqlToInsertProduct = "INSERT INTO product (name, price, category_id, description)" 
 						+ " VALUES (?,?,?,?)";
 		String sqlToInsertStock = "INSERT INTO stock (product_id, quantity) VALUES (?,?)";
 		String sqlToGetId = "SELECT LAST_INSERT_ID()";
 
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sqlToInsertProduct);
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sqlToInsertProduct);
 
-			stmt.setString(1, product.getName());
-			stmt.setString(2, product.getPrice());
-			stmt.setInt(3, product.getCategoryId());
-			stmt.setString(4, product.getDescription());
-			int uc = stmt.executeUpdate();
-			stmt = conn.prepareStatement(sqlToGetId);
-			
-			if (uc == 1) {
-				ResultSet rs = stmt.executeQuery(sqlToGetId);
-				if (rs.next()) {
+			statement.setString(1, product.getName());
+			statement.setString(2, product.getPrice());
+			statement.setInt(3, product.getCategoryId());
+			statement.setString(4, product.getDescription());
+			int updateCount = statement.executeUpdate();
+			statement = connection.prepareStatement(sqlToGetId);			
+			if (updateCount == 1) {
+				ResultSet resultSet = statement.executeQuery(sqlToGetId);
+				if (resultSet.next()) {
 					newProduct = product;
-					newProduct.setId(rs.getInt(1));
+					newProduct.setId(resultSet.getInt(1));
 				}
-				stmt = conn.prepareStatement(sqlToInsertStock);
-				stmt.setInt(1, product.getId());
-				stmt.setInt(2, stock.getQuantity());
-				stmt.executeUpdate();
+				statement = connection.prepareStatement(sqlToInsertStock);
+				statement.setInt(1, product.getId());
+				statement.setInt(2, stock.getQuantity());
+				statement.executeUpdate();
+				resultSet.close();
 			}
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return newProduct;
 	}
+	
 	@Override
 	public Product editProduct(Product product, Stock stock) {
-		
 		Product updatedProduct = null;
-
 		String sqlToUpdateProduct = "UPDATE product set name=?, price=?, category_id=?"
-						+ ", description=? WHERE id=?"; 
-						
-		String sqlToUpdateStock = "UPDATE stock set quantity=? WHERE product_id=?";
+						+ ", description=? WHERE id=?"; 			
 
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sqlToUpdateProduct);
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sqlToUpdateProduct);
 
-			stmt.setString(1, product.getName());
-			stmt.setString(2, product.getPrice());
-			stmt.setInt(3, product.getCategoryId());
-			stmt.setString(4, product.getDescription());
-			stmt.setInt(5, product.getId());
+			statement.setString(1, product.getName());
+			statement.setString(2, product.getPrice());
+			statement.setInt(3, product.getCategoryId());
+			statement.setString(4, product.getDescription());
+			statement.setInt(5, product.getId());
 			
-			int uc = stmt.executeUpdate();			
-			if (uc == 1) {				
+			int updateCount = statement.executeUpdate();			
+			if (updateCount == 1) {				
 				updatedProduct = product;
-				stmt = conn.prepareStatement(sqlToUpdateStock);
-				stmt.setInt(1, stock.getQuantity());
-				stmt.setInt(2, product.getId());
-				stmt.executeUpdate();
+				updateStockById(product.getId(), stock.getQuantity());
 			}
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,8 +141,6 @@ public class HomeDAODBImpl implements HomeDAO {
 		return updatedProduct;
 	}
 
-	
-
 	@Override
 	public String deleteProduct(Integer id) {
 		String response = null;
@@ -162,21 +148,21 @@ public class HomeDAODBImpl implements HomeDAO {
 		String sqlDeleteFromProductTable = "DELETE FROM product WHERE id = ?";
 
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sqlDeleteFromStockTable);
-			stmt.setInt(1, id);
-			int updateCountFromStock = stmt.executeUpdate();
-			stmt = conn.prepareStatement(sqlDeleteFromProductTable);
-			stmt.setInt(1, id);
-			int updateCountFromProduct = stmt.executeUpdate();
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sqlDeleteFromStockTable);
+			statement.setInt(1, id);
+			int updateCountFromStock = statement.executeUpdate();
+			statement = connection.prepareStatement(sqlDeleteFromProductTable);
+			statement.setInt(1, id);
+			int updateCountFromProduct = statement.executeUpdate();
 			if (updateCountFromStock == 1 && updateCountFromProduct == 1) {
 				response = "Product Deleted!";
 			} else {
 				response = "No Product Found!";
 			}
 
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			response = "Unable to delete PRODUCT for reasons unknown!";
@@ -185,51 +171,51 @@ public class HomeDAODBImpl implements HomeDAO {
 	}
 
 	@Override
-	public String updateStockById(Integer id, Integer amount) {
-		String response = null;
-		String sql = "UPDATE product SET quantity = ?";
+	public boolean updateStockById(Integer id, Integer quantity) {
+		boolean result = false;
+		String sql = "UPDATE stock set quantity=? WHERE product_id=?";
 
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			stmt.setInt(1, amount);
+			statement.setInt(1, quantity);
+			statement.setInt(2, id);
 
-			int uc = stmt.executeUpdate();
-			if (uc > 0) {
-				response = "Quantity in stock: " + amount;
+			int updateCount = statement.executeUpdate();
+			if (updateCount == 1) {
+				result = true;
 			} else {
-				response = "Unable to update inventory!";
+				result = false;
 			}
 
-			stmt.close();
-			conn.close();
+			statement.close();
+			connection.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return response;
+		return result;
 	}
 
 	@Override
 	public Stock getStockById(Integer id) {
 		Stock stock = new Stock();
-
-		String sql = "Select quantity FROM stock WHERE product_id = ?";
+		String sql = "SELECT quantity FROM stock WHERE product_id = ?";
 
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, id);
-			ResultSet rs = stmt.executeQuery();
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
 
-			if (rs.next()) {
-				stock.setQuantity(rs.getInt(1));
+			if (resultSet.next()) {
+				stock.setQuantity(resultSet.getInt(1));
 			}
 
-			rs.close();
-			stmt.close();
-			conn.close();
+			resultSet.close();
+			statement.close();
+			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -243,19 +229,19 @@ public class HomeDAODBImpl implements HomeDAO {
 				+ "FROM category";
 
 		try {
-			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			Connection connection = DriverManager.getConnection(url, user, password);
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-			ResultSet rs = stmt.executeQuery();
+			ResultSet resultSet = statement.executeQuery();
 
-			while (rs.next()) {
-				Category category = new Category(rs.getInt(1), rs.getString(2), rs.getString(3));
+			while (resultSet.next()) {
+				Category category = new Category(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
 				categories.add(category);
 			}
 
-			rs.close();
-			stmt.close();
-			conn.close();
+			resultSet.close();
+			statement.close();
+			connection.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
