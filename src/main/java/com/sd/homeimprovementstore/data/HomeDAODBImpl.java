@@ -78,9 +78,10 @@ public class HomeDAODBImpl implements HomeDAO {
 						+ " VALUES (?,?,?,?)";
 		String sqlToInsertStock = "INSERT INTO stock (product_id, quantity) VALUES (?,?)";
 		String sqlToGetId = "SELECT LAST_INSERT_ID()";
-
+		Connection connection;
 		try {
-			Connection connection = DriverManager.getConnection(url, user, password);
+			connection = DriverManager.getConnection(url, user, password);
+			connection.setAutoCommit(false);
 			PreparedStatement statement = connection.prepareStatement(sqlToInsertProduct);
 
 			statement.setString(1, product.getName());
@@ -99,12 +100,15 @@ public class HomeDAODBImpl implements HomeDAO {
 				statement.setInt(1, product.getId());
 				statement.setInt(2, stock.getQuantity());
 				statement.executeUpdate();
+				connection.commit();
 				resultSet.close();
+			} else {
+				connection.rollback();
 			}
 			statement.close();
 			connection.close();
 
-		} catch (Exception e) {
+		} catch (Exception e) {			
 			e.printStackTrace();
 		}
 		return newProduct;
@@ -115,9 +119,10 @@ public class HomeDAODBImpl implements HomeDAO {
 		Product updatedProduct = null;
 		String sqlToUpdateProduct = "UPDATE product set name=?, price=?, category_id=?"
 						+ ", description=? WHERE id=?"; 			
-
+		Connection connection;
 		try {
-			Connection connection = DriverManager.getConnection(url, user, password);
+			connection = DriverManager.getConnection(url, user, password);
+			connection.setAutoCommit(false);
 			PreparedStatement statement = connection.prepareStatement(sqlToUpdateProduct);
 
 			statement.setString(1, product.getName());
@@ -130,6 +135,10 @@ public class HomeDAODBImpl implements HomeDAO {
 			if (updateCount == 1) {				
 				updatedProduct = product;
 				updateStockById(product.getId(), stock.getQuantity());
+				connection.commit();
+
+			} else {
+				connection.rollback();
 			}
 			statement.close();
 			connection.close();
