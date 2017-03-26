@@ -1,13 +1,6 @@
 body {
 	padding-top: 30px;
-	background-image: url('../images/background.jpg');
-	
-}
-
-
-
-form {
-	/* margin: 3px; */
+	background-image: url('../images/background.jpg');	
 }
 
 .clear-area {
@@ -15,7 +8,7 @@ form {
 	    padding: 10px;
 }
 
-.btn {
+.btn, .centered{
 	display: block; 
 	margin: 5px auto;
 }
@@ -34,10 +27,10 @@ th {
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: lightgreen;
 }
+
 .horizontal {
 	display: inline-block;
 }
-
 
 .txt_3[type="text"] {
 	margin: 10px 0 0;
@@ -46,11 +39,7 @@ th {
 }
 
 .txt2[type="submit"] {
-	/*     background: #242424 none repeat scroll 0 0;
- */
 	border: 1px solid #4f5c04;
-	/*     border-radius: 10px;
- */
 	color: #fff;
 	font-size: 16px;
 	font-style: normal;
@@ -65,4 +54,8 @@ th {
 	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
 	color: #5793ef;
 	transition: all 0.5s ease 0s;
+}
+
+input[type=number]{
+	width: 75px;
 }
