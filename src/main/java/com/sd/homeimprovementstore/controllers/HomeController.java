@@ -64,12 +64,23 @@ public class HomeController {
 		return mv;
 	}
 
-	@RequestMapping(value = "editProduct.do", method = RequestMethod.POST)
-	public ModelAndView editProduct(Product product, Integer quantity) {
+	@RequestMapping(value = "editProduct.do", method = RequestMethod.GET)
+	public ModelAndView editProduct(int id) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
-		Product returnedProduct = dao.editProduct(product, quantity);
-		mv.addObject("returnedProduct", returnedProduct);
+		mv.setViewName("editproduct");
+		Product product = dao.getProductById(id);
+		mv.addObject("product", product);
+		Stock stock = dao.getStockById(id);
+		mv.addObject("stock", stock);
+		List<Category> categories= dao.getCategories();
+		mv.addObject("categories", categories);
+		return mv;
+	}
+	@RequestMapping(value = "updateProduct.do", method = RequestMethod.POST)
+	public ModelAndView updateProduct(Product product, Stock stock) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("productupdated");
+		mv.addObject("updatedProduct", dao.editProduct(product, stock));
 		return mv;
 	}
 

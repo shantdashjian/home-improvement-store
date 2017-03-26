@@ -7,9 +7,9 @@ public interface HomeDAO {
 	List<Stock> getInventory();
 	Product getProductById(Integer id);
 	Product addProduct(Product product, Stock stock);
-	Product editProduct(Product product, Integer quantity);
+	Product editProduct(Product product, Stock stock);
 	String deleteProduct(Integer id);
-	int getStockById(Integer id);
+	Stock getStockById(Integer id);
 	String updateStockById(Integer id, Integer amount);
 	List<Category> getCategories();
 }

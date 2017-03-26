@@ -39,35 +39,39 @@
 		<jsp:include page="logoandnavigation.jsp" />
 		<div class="col-md-9">
 			<div class="col-md-12 clear-area">
-				<table class="table table-bordered">
-					<tr>
-						<th>Product ID</th>
-						<th>Product Name</th>
-						<th>Price</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>${product.id}</td>
-						<td>${product.name}</td>
-						<td>${product.price}</td>
-						<td>${product.description}</td>
-					</tr>
-				</table>
-				<c:if test="${! empty response}">
-					<b>${response}</b>
-					<br>
-				</c:if>
-				<form class="horizontal" action="deleteProduct.do" method="POST">
-					<button class="btn btn-primary btn-sm" type="submit" name="id"
-						value="${product.id}">Delete</button>
-
-				</form>
-
-				<form class="horizontal" action="editProduct.do" method="GET">
-					<button class="btn btn-primary btn-sm" type="submit" name="id"
-						value="${product.id}">Edit</button>
-
-				</form>
+				<div class="form_main">
+					<h3 class="heading">
+						<strong>Edit Product </strong><span></span>
+					</h3>
+					<div class="form">
+						<form action="updateProduct.do" method="POST">
+							<input type="hidden" value="${product.id}" name="id"> 
+							<label for="name">Product name: </label> 
+							<input type="text" name="name" size="40" value="${product.name}"> <br> 
+							<label for="price">Price: </label><input type="number" name="price" 
+							value="${product.price}" step="0.01" min="1.00"><br>
+							<label for="quantity">Quantity: </label> <input
+								type="number" name="quantity" value="${stock.quantity}" min="1" /><br> 
+								<label for="categoryId">Category: </label> 
+   
+								<select name="categoryId">
+								<c:forEach var="category" items="${categories}">
+									<c:choose>
+										<c:when test="${category.id eq product.categoryId}">
+											<option value="${category.id}" selected>${category.name}</option>
+										</c:when>
+										<c:otherwise>
+											<option value="${category.id}">${category.name}</option>
+										</c:otherwise>
+									</c:choose>
+								</c:forEach>
+							</select><br> <label for="description">Description: </label>
+							<textarea name="description" type="text" class="txt_3">${product.description}</textarea>
+							<br> <input class="btn btn-primary btn-md" type="submit"
+								value="Update Product Details">
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

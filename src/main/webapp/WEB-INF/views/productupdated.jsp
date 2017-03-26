@@ -1,4 +1,3 @@
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
 <!-- Commenting -->
@@ -39,41 +38,23 @@
 		<jsp:include page="logoandnavigation.jsp" />
 		<div class="col-md-9">
 			<div class="col-md-12 clear-area">
-				<table class="table table-bordered">
-					<tr>
-						<th>Product ID</th>
-						<th>Product Name</th>
-						<th>Price</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>${product.id}</td>
-						<td>${product.name}</td>
-						<td>${product.price}</td>
-						<td>${product.description}</td>
-					</tr>
-				</table>
-				<c:if test="${! empty response}">
-					<b>${response}</b>
-					<br>
-				</c:if>
-				<form class="horizontal" action="deleteProduct.do" method="POST">
-					<button class="btn btn-primary btn-sm" type="submit" name="id"
-						value="${product.id}">Delete</button>
+				<c:choose>
+					<c:when test="${! empty updatedProduct}">
+						<h4>Product has been updated </h4>
+						Product: <strong>${updatedProduct.name}</strong>
+						<br>
+						Description: <strong>${updatedProduct.description}</strong>
+						<br>
 
-				</form>
-
-				<form class="horizontal" action="editProduct.do" method="GET">
-					<button class="btn btn-primary btn-sm" type="submit" name="id"
-						value="${product.id}">Edit</button>
-
-				</form>
+					</c:when>
+					<c:otherwise>
+						Product not updated!
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>
 	</div>
-
-
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
@@ -85,5 +66,3 @@
 </body>
 
 </html>
-
-

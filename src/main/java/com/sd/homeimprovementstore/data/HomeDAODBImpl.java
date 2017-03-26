@@ -115,32 +115,45 @@ public class HomeDAODBImpl implements HomeDAO {
 
 		return newProduct;
 	}
-
 	@Override
-	public Product editProduct(Product product, Integer quantity) {
+	public Product editProduct(Product product, Stock stock) {
+		
+		Product updatedProduct = null;
 
-		String sql = "UPDATE product SET name = ?,  price = ?, categoryId = ?";
-
-		String sql2 = "SELECT LAST_INSERT_ID()";
+		String sqlToUpdateProduct = "UPDATE product set name=?, price=?, category_id=?"
+						+ ", description=? WHERE id=?"; 
+						
+		String sqlToUpdateStock = "UPDATE stock set quantity=? WHERE product_id=?";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = conn.prepareStatement(sqlToUpdateProduct);
 
 			stmt.setString(1, product.getName());
 			stmt.setString(2, product.getPrice());
 			stmt.setInt(3, product.getCategoryId());
-
-			int uc = stmt.executeUpdate();
-
+			stmt.setString(4, product.getDescription());
+			stmt.setInt(5, product.getId());
+			
+			int uc = stmt.executeUpdate();			
+			if (uc == 1) {				
+				updatedProduct = product;
+				stmt = conn.prepareStatement(sqlToUpdateStock);
+				stmt.setInt(1, stock.getQuantity());
+				stmt.setInt(2, product.getId());
+				stmt.executeUpdate();
+			}
 			stmt.close();
 			conn.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return product;
+
+		return updatedProduct;
 	}
+
+	
 
 	@Override
 	public String deleteProduct(Integer id) {
@@ -199,10 +212,10 @@ public class HomeDAODBImpl implements HomeDAO {
 	}
 
 	@Override
-	public int getStockById(Integer id) {
-		Integer quantity = 0;
+	public Stock getStockById(Integer id) {
+		Stock stock = new Stock();
 
-		String sql = "Select quantity FROM stock WHERE id = ?";
+		String sql = "Select quantity FROM stock WHERE product_id = ?";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -211,7 +224,7 @@ public class HomeDAODBImpl implements HomeDAO {
 			ResultSet rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				quantity = rs.getInt(1);
+				stock.setQuantity(rs.getInt(1));
 			}
 
 			rs.close();
@@ -220,7 +233,7 @@ public class HomeDAODBImpl implements HomeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return quantity;
+		return stock;
 	}
 
 	@Override
