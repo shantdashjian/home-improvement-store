@@ -1,7 +1,7 @@
 body {
 	padding-top: 30px;
 	background-image: url('../images/background.jpg');
-	margin-left: 0.5%;
+	
 }
 
 
@@ -29,4 +29,8 @@ img {
 
 th {
 	text-align: center;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+  background-color: lightblue;
 }

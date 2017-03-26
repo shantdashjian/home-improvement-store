@@ -66,24 +66,30 @@
 			</div>
 			<div class="col-md-9">
 				<div class="col-md-12 clear-area">
-					<table>
+					<table class="table table-bordered table-hover">
+					<thead>
 						<tr>
 							<th>Product ID</th>
 							<th>Product Name</th>
-							<th>Product Price</th>
+							<th>Price</th>
 							<th>Quantity</th>
 						</tr>
+						</thead>
+						<tbody>
 						<c:forEach var="stock" items="${inventory}">
-							<tr>
-								<td>${stock.product.id}</td>
-
-								<td><a href="getProduct.do?id=${stock.product.id}">${stock.product.name}</a></td>
-
-								<td>${stock.product.price}</td>
-
-								<td>${stock.quantity}</td>
-							</tr>
+							
+								<tr onclick="location.href='getProduct.do?id=${stock.product.id}';">
+									<td>${stock.product.id}</td>
+	
+									<td>${stock.product.name}</td>
+	
+									<td>${stock.product.price}</td>
+	
+									<td>${stock.quantity}</td>
+								</tr>
+							
 						</c:forEach>
+						</tbody>
 					</table>
 				</div>
 			</div>
