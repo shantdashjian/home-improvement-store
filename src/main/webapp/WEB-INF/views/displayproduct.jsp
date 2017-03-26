@@ -57,15 +57,14 @@
 					<b>${response}</b>
 					<br>
 				</c:if>
-				<form class="horizontal" action="deleteProduct.do" method="POST">
-					<button class="btn btn-primary btn-sm" type="submit" name="id"
-						value="${product.id}">Delete</button>
-
-				</form>
 
 				<form class="horizontal" action="editProduct.do" method="GET">
 					<button class="btn btn-primary btn-sm" type="submit" name="id"
 						value="${product.id}">Edit</button>
+				</form>
+				<form class="horizontal pull-right" action="deleteProduct.do" method="POST">
+					<button class="btn btn-primary btn-sm" type="submit" name="id"
+						value="${product.id}">Delete</button>
 
 				</form>
 			</div>
