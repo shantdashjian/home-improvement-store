@@ -55,6 +55,7 @@ public class HomeController {
 		mv.addObject("categories", categories);
 		return mv;
 	}
+	
 	@RequestMapping(value = "createProduct.do", method = RequestMethod.POST)
 	public ModelAndView createProduct(Product product, Stock stock) {
 		ModelAndView mv = new ModelAndView();
@@ -75,6 +76,7 @@ public class HomeController {
 		mv.addObject("categories", categories);
 		return mv;
 	}
+	
 	@RequestMapping(value = "updateProduct.do", method = RequestMethod.POST)
 	public ModelAndView updateProduct(Product product, Stock stock) {
 		ModelAndView mv = new ModelAndView();

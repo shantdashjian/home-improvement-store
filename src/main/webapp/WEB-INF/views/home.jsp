@@ -19,8 +19,6 @@
 
 <!-- Custom styles for this template -->
 <link href="css/master.css" rel="stylesheet">
-<!-- <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
- -->
 <link rel="shortcut icon" type="image/x-icon"
 	href="${pageContext.request.contextPath}/images/favicon.ico" />
 
@@ -30,10 +28,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
-
-
 	<div class="container">
 	<jsp:include page="logoandnavigation.jsp" />
 		<div class="col-md-9">
@@ -49,18 +44,13 @@
 						</thead>
 						<tbody>
 							<c:forEach var="stock" items="${inventory}">
-
 								<tr
 									onclick="location.href='displayProduct.do?id=${stock.product.id}';">
 									<td>${stock.product.id}</td>
-
 									<td>${stock.product.name}</td>
-
 									<td>${stock.product.price}</td>
-
 									<td>${stock.quantity}</td>
 								</tr>
-
 							</c:forEach>
 						</tbody>
 					</table>
