@@ -68,7 +68,7 @@ public class HomeController {
 	@RequestMapping(value = "deleteProduct.do", method = RequestMethod.POST)
 	public ModelAndView deleteProduct(Integer id) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("home");
+		mv.setViewName("productdeleted");
 		String response = dao.deleteProduct(id);
 		mv.addObject("response", response);
 		return mv;

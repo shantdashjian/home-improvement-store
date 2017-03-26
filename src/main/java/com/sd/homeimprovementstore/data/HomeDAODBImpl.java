@@ -139,16 +139,18 @@ System.out.println(stocks);
 	@Override
 	public String deleteProduct(Integer id) {
 		String response = null;
-		String sql = "DELETE FROM film WHERE id = ?";
+		String sqlDeleteFromStockTable = "DELETE FROM stock WHERE product_id = ?";
+		String sqlDeleteFromProductTable = "DELETE FROM product WHERE id = ?";
 
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
-			PreparedStatement stmt = conn.prepareStatement(sql);
+			PreparedStatement stmt = conn.prepareStatement(sqlDeleteFromStockTable);
 			stmt.setInt(1, id);
-
-			int uc = stmt.executeUpdate();
-
-			if (uc > 0) {
+			int updateCountFromStock = stmt.executeUpdate();
+			stmt = conn.prepareStatement(sqlDeleteFromProductTable);
+			stmt.setInt(1, id);
+			int updateCountFromProduct = stmt.executeUpdate();
+			if (updateCountFromStock == 1 && updateCountFromProduct == 1) {
 				response = "Product Deleted!";
 			} else {
 				response = "No Product Found!";
