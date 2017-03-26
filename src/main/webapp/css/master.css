@@ -32,5 +32,8 @@ th {
 }
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
-  background-color: lightblue;
+  background-color: lightgreen;
+}
+.horizontal {
+	display: inline-block;
 }

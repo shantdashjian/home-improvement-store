@@ -51,12 +51,12 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="col-md-12 clear-area">
-					<form action="listInventory.do" method="GET">
+					<form action="getInventory.do" method="GET">
 						<input class="btn btn-primary btn-sm" type="submit"
 							value="List Inventory">
 					</form>
 
-					<form action="addProduct.do" method="GET">
+					<form action="addProduct.do" method="POST">
 						<input class="btn btn-primary btn-sm" type="submit"
 							value="Add Product">
 					</form>
@@ -67,55 +67,35 @@
 			<div class="col-md-9">
 				<div class="col-md-12 clear-area">
 					<table class="table table-bordered table-hover">
-					<thead>
-						<tr>
-							<th>Product ID</th>
-							<th>Product Name</th>
-							<th>Price</th>
-							<th>Quantity</th>
-						</tr>
+						<thead>
+							<tr>
+								<th>Product ID</th>
+								<th>Product Name</th>
+								<th>Price</th>
+								<th>Quantity</th>
+							</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="stock" items="${inventory}">
-							
-								<tr onclick="location.href='getProduct.do?id=${stock.product.id}';">
+							<c:forEach var="stock" items="${inventory}">
+
+								<tr
+									onclick="location.href='getProduct.do?id=${stock.product.id}';">
 									<td>${stock.product.id}</td>
-	
+
 									<td>${stock.product.name}</td>
-	
+
 									<td>${stock.product.price}</td>
-	
+
 									<td>${stock.quantity}</td>
 								</tr>
-							
-						</c:forEach>
+
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-		<!-- /.container -->
-		<%-- <table>
-		<tr>
-			<th>Product ID:</th>
-			<th>Product Name:</th>
-			<th>Product Price:</th>
-			<th>Quantity:</th>
-		</tr>
-		<c:forEach var="stock" items="${inventory}">
-			<tr>
-				<td>${stock.product.id}</td>
-
-				<td><a href="getProduct.do?id=${stock.product.id}">${stock.product.name}</a></td>
-
-				<td>${stock.product.price}</td>
-
-				<td>${stock.quantity}</td>
-			</tr>
-		</c:forEach>
-	</table> --%>
-
-
+		
 
 		<!-- Bootstrap core JavaScript
     ================================================== -->
