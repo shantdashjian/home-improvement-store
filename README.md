@@ -35,6 +35,8 @@ http://www.shaundashjian.com:8080/HomeImprovementStore/
   * Alerts when quantity in stock is low or reaches a certain level
   * Information about the date an item was added or updated
   * Search by product name functionality
+  * Add pictures to product details
+  * Add warehouse database and connect store inventory system to it
   
 ## Stumbling and Learning Points:
   * Ensuring that the database server is active
