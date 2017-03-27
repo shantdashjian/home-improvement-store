@@ -39,34 +39,40 @@
 		<jsp:include page="logoandnavigation.jsp" />
 		<div class="col-md-9">
 			<div class="col-md-12 clear-area">
-				<table class="table table-bordered">
-					<tr>
-						<th>Product ID</th>
-						<th>Product Name</th>
-						<th>Price</th>
-						<th>Description</th>
-					</tr>
-					<tr>
-						<td>${product.id}</td>
-						<td>${product.name}</td>
-						<td>${product.price}</td>
-						<td>${product.description}</td>
-					</tr>
-				</table>
-				<c:if test="${! empty response}">
-					<b>${response}</b>
-					<br>
-				</c:if>
+				<c:choose>
+					<c:when test="${! empty product}">
+						<table class="table table-bordered">
+							<tr>
+								<th>Product ID</th>
+								<th>Product Name</th>
+								<th>Price</th>
+								<th>Description</th>
+							</tr>
+							<tr>
+								<td>${product.id}</td>
+								<td>${product.name}</td>
+								<td>${product.price}</td>
+								<td>${product.description}</td>
+							</tr>
+						</table>
 
-				<form class="horizontal" action="editProduct.do" method="GET">
-					<button class="btn btn-primary btn-sm" type="submit" name="id"
-						value="${product.id}">Edit</button>
-				</form>
-				<form class="horizontal pull-right" action="deleteProduct.do" method="POST">
-					<button class="btn btn-primary btn-sm" type="submit" name="id"
-						value="${product.id}">Delete</button>
+						<form class="horizontal" action="editProduct.do" method="GET">
+							<button class="btn btn-primary btn-sm" type="submit" name="id"
+								value="${product.id}">Edit</button>
+						</form>
+						<form class="horizontal pull-right" action="deleteProduct.do"
+							method="POST">
+							<button class="btn btn-primary btn-sm" type="submit" name="id"
+								value="${product.id}">Delete</button>
 
-				</form>
+						</form>
+					</c:when>
+					<c:otherwise>
+						<strong>Product Not Found!</strong>
+					</c:otherwise>
+
+				</c:choose>
+
 			</div>
 		</div>
 	</div>
